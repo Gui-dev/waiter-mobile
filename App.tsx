@@ -1,20 +1,36 @@
+import { useFonts } from 'expo-font'
 import { StatusBar } from 'expo-status-bar'
-import { StyleSheet, Text, View } from 'react-native'
+import { ActivityIndicator, View } from 'react-native'
+
+import GeneralSans400 from './src/assets/fonts/GeneralSans-Regular.otf'
+import GeneralSans600 from './src/assets/fonts/GeneralSans-Semibold.otf'
+import GeneralSans700 from './src/assets/fonts/GeneralSans-Bold.otf'
+
+import { Main } from './src/screens/Main'
 
 export default function App () {
+  const [fontsLoaded] = useFonts({
+    'GeneralSans-400': GeneralSans400,
+    'GeneralSans-600': GeneralSans600,
+    'GeneralSans-700': GeneralSans700
+  })
+
+  if (!fontsLoaded) {
+    return (
+      <View style={{
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center'
+      }}>
+        <ActivityIndicator size="large" color="#D73035" />
+      </View>
+    )
+  }
+
   return (
-    <View style={styles.container}>
-      <Text>Hello World</Text>
-      <StatusBar style="auto" />
-    </View>
+    <>
+      <StatusBar style="dark" />
+      <Main />
+    </>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center'
-  }
-})
