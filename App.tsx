@@ -1,6 +1,8 @@
 import { useFonts } from 'expo-font'
 import { StatusBar } from 'expo-status-bar'
 import { ActivityIndicator, View } from 'react-native'
+import 'intl'
+import 'intl/locale-data/jsonp/pt-BR'
 
 import GeneralSans400 from './src/assets/fonts/GeneralSans-Regular.otf'
 import GeneralSans600 from './src/assets/fonts/GeneralSans-Semibold.otf'
