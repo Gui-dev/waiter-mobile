@@ -19,10 +19,17 @@ export const Main = () => {
     setSelectedTable(tableNumber)
   }
 
+  const handleCancelOrder = () => {
+    setSelectedTable('')
+  }
+
   return (
     <>
       <Container>
-        <Header />
+        <Header
+          table={selectedTable}
+          onCancelOrder={handleCancelOrder}
+        />
         <CategoriesContainer>
           <Categories categories={categories} />
         </CategoriesContainer>
@@ -32,16 +39,12 @@ export const Main = () => {
       </Container>
       <Footer>
         <FooterContainer>
-          {!selectedTable
-            ? <Button
+          {!selectedTable && (
+            <Button
               onPress={() => setIsModalVisible(true)}
               label="Novo Pedido"
             />
-            : <Button
-              onPress={() => setIsModalVisible(true)}
-              label="Finalizar"
-            />
-          }
+          )}
 
         </FooterContainer>
       </Footer>
