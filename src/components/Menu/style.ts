@@ -25,6 +25,6 @@ export const Separator = styled.View`
 
 export const AddToCartButton = styled.TouchableOpacity`
   position: absolute;
-  right: 5px;
+  right: 0;
   bottom: 0;
 `

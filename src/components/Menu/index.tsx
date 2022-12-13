@@ -71,7 +71,8 @@ export const Menu = ({ products }: MenuProps) => {
           marginTop: 32
         }}
         contentContainerStyle={{
-          paddingHorizontal: 24
+          paddingHorizontal: 24,
+          paddingBottom: 60
         }}
       />
     </>
