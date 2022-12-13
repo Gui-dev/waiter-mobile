@@ -24,9 +24,10 @@ export type ProductProps = {
 
 type MenuProps = {
   products: ProductProps[]
+  onAddToCart: (product: ProductProps) => void
 }
 
-export const Menu = ({ products }: MenuProps) => {
+export const Menu = ({ products, onAddToCart }: MenuProps) => {
   const [isProductModalVisible, setIsProductModalVisible] = useState(false)
   const [selectedProduct, setSelectedProduct] = useState<ProductProps | null>(null)
 
@@ -41,6 +42,7 @@ export const Menu = ({ products }: MenuProps) => {
         visible={isProductModalVisible}
         product={selectedProduct}
         onClose={() => setIsProductModalVisible(false)}
+        onAddToCart={onAddToCart}
       />
       <FlatList
         data={products}
@@ -60,7 +62,7 @@ export const Menu = ({ products }: MenuProps) => {
                   {formatCurrency(item.price)}
                 </Text>
               </ProductDetails>
-              <AddToCartButton onPress={() => alert('Pedir')}>
+              <AddToCartButton onPress={() => onAddToCart(item)}>
                 <PlusCircle />
               </AddToCartButton>
             </Product>

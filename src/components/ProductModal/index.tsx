@@ -11,11 +11,17 @@ type ProductModalProps = {
   visible: boolean
   product: ProductProps | null
   onClose: () => void
+  onAddToCart: (product: ProductProps) => void
 }
 
-export const ProductModal = ({ visible, product, onClose }: ProductModalProps) => {
+export const ProductModal = ({ visible, product, onClose, onAddToCart }: ProductModalProps) => {
   if (!product) {
     return null
+  }
+
+  const handleAddToCart = () => {
+    onAddToCart(product)
+    onClose()
   }
 
   return (
@@ -68,7 +74,7 @@ export const ProductModal = ({ visible, product, onClose }: ProductModalProps) =
           </PriceContainer>
           <Button
             label="Adicionar ao pedido"
-            onPress={() => alert('Adicionado')}
+            onPress={handleAddToCart}
           />
         </FooterContainer>
       </Footer>

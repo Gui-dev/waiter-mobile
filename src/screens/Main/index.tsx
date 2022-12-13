@@ -2,7 +2,7 @@ import { useState } from 'react'
 
 import { Header } from '../../components/Header'
 import { Categories } from '../../components/Categories'
-import { Menu } from '../../components/Menu'
+import { Menu, ProductProps } from '../../components/Menu'
 import { Button } from '../../components/Button'
 import { TableModal } from '../../components/TableModal'
 import { Cart, CartItems } from '../../components/Cart'
@@ -15,16 +15,7 @@ import { products } from './../../mocks/products'
 export const Main = () => {
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [selectedTable, setSelectedTable] = useState('')
-  const [cartItems, setCartItems] = useState<CartItems[]>([
-    {
-      quantity: 2,
-      product: products[0]
-    },
-    {
-      quantity: 4,
-      product: products[1]
-    }
-  ])
+  const [cartItems, setCartItems] = useState<CartItems[]>([])
 
   const handleSaveTable = (tableNumber: string) => {
     setSelectedTable(tableNumber)
@@ -32,6 +23,25 @@ export const Main = () => {
 
   const handleCancelOrder = () => {
     setSelectedTable('')
+  }
+
+  const handleAddToCart = (product: ProductProps) => {
+    if (!selectedTable) {
+      setIsModalVisible(true)
+    }
+    setCartItems((prevState) => {
+      const itemIndex = prevState.findIndex(cartItem => cartItem.product._id === product._id)
+      if (itemIndex < 0) {
+        return prevState.concat({ quantity: 1, product })
+      }
+      const newCartItem = [...prevState]
+      const item = newCartItem[itemIndex]
+      newCartItem[itemIndex] = {
+        ...item,
+        quantity: item.quantity + 1
+      }
+      return newCartItem
+    })
   }
 
   return (
@@ -45,7 +55,10 @@ export const Main = () => {
           <Categories categories={categories} />
         </CategoriesContainer>
         <MenuContainer>
-          <Menu products={products} />
+          <Menu
+            products={products}
+            onAddToCart={handleAddToCart}
+          />
         </MenuContainer>
       </Container>
       <Footer>
