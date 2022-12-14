@@ -15,9 +15,14 @@ export type CartItems = {
 
 type CartProps = {
   cartItems: CartItems[]
+  onAdd: (product: ProductProps) => void
 }
 
-export const Cart = ({ cartItems }: CartProps) => {
+export const Cart = ({ cartItems, onAdd }: CartProps) => {
+  const total = cartItems.reduce((sumTotal, item) => {
+    return sumTotal + item.quantity * item.product.price
+  }, 0)
+
   return (
     <>
       {cartItems.length > 0 && (
@@ -42,7 +47,10 @@ export const Cart = ({ cartItems }: CartProps) => {
                   </ProductDetails>
                 </Product>
                 <Actions>
-                  <TouchableOpacity style={{ marginRight: 24 }}>
+                  <TouchableOpacity
+                    style={{ marginRight: 24 }}
+                    onPress={() => onAdd(item.product)}
+                  >
                     <PlusCircle />
                   </TouchableOpacity>
                   <TouchableOpacity>
@@ -65,7 +73,7 @@ export const Cart = ({ cartItems }: CartProps) => {
             cartItems.length > 0
               ? <>
                 <Text color="#666">Total</Text>
-                <Text size={20} weight="600">R$120,00</Text>
+                <Text size={20} weight="600">{formatCurrency(total)}</Text>
               </>
               : <Text color="#999">Seu carrinho{'\n'}está vazio</Text>
           }

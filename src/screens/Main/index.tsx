@@ -23,6 +23,7 @@ export const Main = () => {
 
   const handleCancelOrder = () => {
     setSelectedTable('')
+    setCartItems([])
   }
 
   const handleAddToCart = (product: ProductProps) => {
@@ -70,7 +71,10 @@ export const Main = () => {
             />
           )}
           {selectedTable && (
-            <Cart cartItems={cartItems} />
+            <Cart
+              cartItems={cartItems}
+              onAdd={handleAddToCart}
+            />
           )}
 
         </FooterContainer>
