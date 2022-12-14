@@ -16,11 +16,12 @@ export type CartItems = {
 type CartProps = {
   cartItems: CartItems[]
   onAdd: (product: ProductProps) => void
+  onDecrement: (product: ProductProps) => void
 }
 
-export const Cart = ({ cartItems, onAdd }: CartProps) => {
-  const total = cartItems.reduce((sumTotal, item) => {
-    return sumTotal + item.quantity * item.product.price
+export const Cart = ({ cartItems, onAdd, onDecrement }: CartProps) => {
+  const total = cartItems.reduce((totalSum, item) => {
+    return totalSum + item.quantity * item.product.price
   }, 0)
 
   return (
@@ -53,7 +54,9 @@ export const Cart = ({ cartItems, onAdd }: CartProps) => {
                   >
                     <PlusCircle />
                   </TouchableOpacity>
-                  <TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => onDecrement(item.product)}
+                  >
                     <MinusCircle />
                   </TouchableOpacity>
                 </Actions>

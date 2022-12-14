@@ -45,6 +45,23 @@ export const Main = () => {
     })
   }
 
+  const handleDecrementCartItem = (product: ProductProps) => {
+    setCartItems((prevState) => {
+      const itemIndex = prevState.findIndex(cartItem => cartItem.product._id === product._id)
+      const item = prevState[itemIndex]
+      const newCartItem = [...prevState]
+      if (item.quantity === 1) {
+        newCartItem.splice(itemIndex, 1)
+        return newCartItem
+      }
+      newCartItem[itemIndex] = {
+        ...item,
+        quantity: item.quantity - 1
+      }
+      return newCartItem
+    })
+  }
+
   return (
     <>
       <Container>
@@ -74,6 +91,7 @@ export const Main = () => {
             <Cart
               cartItems={cartItems}
               onAdd={handleAddToCart}
+              onDecrement={handleDecrementCartItem}
             />
           )}
 
