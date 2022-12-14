@@ -8,10 +8,12 @@ import { TableModal } from '../../components/TableModal'
 import { Cart, CartItems } from '../../components/Cart'
 import { Loading } from '../../components/Loading'
 
-import { CategoriesContainer, Container, Footer, FooterContainer, MenuContainer } from './style'
+import { CategoriesContainer, CenteredContainer, Container, Footer, FooterContainer, MenuContainer } from './style'
 
 import { categories } from './../../mocks/categories'
 import { products } from './../../mocks/products'
+import { Empty } from '../../assets/Icons/Empty'
+import { Text } from '../../components/Text'
 
 export const Main = () => {
   const [isLoading, setIsLoading] = useState(false)
@@ -79,12 +81,22 @@ export const Main = () => {
             <CategoriesContainer>
               <Categories categories={categories} />
             </CategoriesContainer>
-            <MenuContainer>
-              <Menu
-                products={products}
-                onAddToCart={handleAddToCart}
-              />
-            </MenuContainer>
+            {products.length > 0
+              ? <MenuContainer>
+                <Menu
+                  products={products}
+                  onAddToCart={handleAddToCart}
+                />
+              </MenuContainer>
+
+              : <CenteredContainer>
+                <Empty />
+                <Text color="#666" style={{ marginTop: 24 }}>
+                  Nenhum produto foi encontrado
+                </Text>
+              </CenteredContainer>
+            }
+
           </>
         )}
       </Container>
