@@ -6,6 +6,7 @@ import { Menu, ProductProps } from '../../components/Menu'
 import { Button } from '../../components/Button'
 import { TableModal } from '../../components/TableModal'
 import { Cart, CartItems } from '../../components/Cart'
+import { Loading } from '../../components/Loading'
 
 import { CategoriesContainer, Container, Footer, FooterContainer, MenuContainer } from './style'
 
@@ -13,6 +14,7 @@ import { categories } from './../../mocks/categories'
 import { products } from './../../mocks/products'
 
 export const Main = () => {
+  const [isLoading, setIsLoading] = useState(false)
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [selectedTable, setSelectedTable] = useState('')
   const [cartItems, setCartItems] = useState<CartItems[]>([])
@@ -69,15 +71,22 @@ export const Main = () => {
           table={selectedTable}
           onCancelOrder={handleResetOrder}
         />
-        <CategoriesContainer>
-          <Categories categories={categories} />
-        </CategoriesContainer>
-        <MenuContainer>
-          <Menu
-            products={products}
-            onAddToCart={handleAddToCart}
-          />
-        </MenuContainer>
+        {isLoading && (
+          <Loading />
+        )}
+        {!isLoading && (
+          <>
+            <CategoriesContainer>
+              <Categories categories={categories} />
+            </CategoriesContainer>
+            <MenuContainer>
+              <Menu
+                products={products}
+                onAddToCart={handleAddToCart}
+              />
+            </MenuContainer>
+          </>
+        )}
       </Container>
       <Footer>
         <FooterContainer>
@@ -85,6 +94,7 @@ export const Main = () => {
             <Button
               onPress={() => setIsModalVisible(true)}
               label="Novo Pedido"
+              disabled={isLoading}
             />
           )}
           {selectedTable && (
