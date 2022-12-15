@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { Header } from '../../components/Header'
 import { Categories, CategoryProps } from '../../components/Categories'
@@ -11,9 +11,10 @@ import { Empty } from '../../assets/Icons/Empty'
 import { Loading } from '../../components/Loading'
 
 import { CategoriesContainer, CenteredContainer, Container, Footer, FooterContainer, MenuContainer } from './style'
+import { api } from '../../services/api'
 
 export const Main = () => {
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [selectedTable, setSelectedTable] = useState('')
   const [products, setProducts] = useState<ProductProps[]>([])
@@ -64,6 +65,25 @@ export const Main = () => {
       return newCartItem
     })
   }
+
+  useEffect(() => {
+    const loadCategoriesAndProducts = async () => {
+      try {
+        const [categoriesResponse, productsResponse] = await Promise.all([
+          api.get('/categories'),
+          api.get('/products')
+        ])
+        setCategories(categoriesResponse.data)
+        setProducts(productsResponse.data)
+      } catch (error) {
+        alert('Erro interno, por favor tente mais tarde')
+        console.log(error)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+    loadCategoriesAndProducts()
+  }, [])
 
   return (
     <>
