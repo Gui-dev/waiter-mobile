@@ -3,13 +3,13 @@ import { FlatList } from 'react-native'
 import { Text } from '../Text'
 import { Category, Icon } from './style'
 
-type CategoryProps = {
+export type CategoryProps = {
   _id: string,
   name: string,
   icon: string
 }
 
-export type CategoriesProps = {
+type CategoriesProps = {
   categories: CategoryProps[]
 }
 

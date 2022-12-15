@@ -1,24 +1,23 @@
 import { useState } from 'react'
 
 import { Header } from '../../components/Header'
-import { Categories } from '../../components/Categories'
+import { Categories, CategoryProps } from '../../components/Categories'
 import { Menu, ProductProps } from '../../components/Menu'
 import { Button } from '../../components/Button'
 import { TableModal } from '../../components/TableModal'
 import { Cart, CartItems } from '../../components/Cart'
+import { Text } from '../../components/Text'
+import { Empty } from '../../assets/Icons/Empty'
 import { Loading } from '../../components/Loading'
 
 import { CategoriesContainer, CenteredContainer, Container, Footer, FooterContainer, MenuContainer } from './style'
-
-import { categories } from './../../mocks/categories'
-import { products } from './../../mocks/products'
-import { Empty } from '../../assets/Icons/Empty'
-import { Text } from '../../components/Text'
 
 export const Main = () => {
   const [isLoading, setIsLoading] = useState(false)
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [selectedTable, setSelectedTable] = useState('')
+  const [products, setProducts] = useState<ProductProps[]>([])
+  const [categories, setCategories] = useState<CategoryProps[]>([])
   const [cartItems, setCartItems] = useState<CartItems[]>([])
 
   const handleSaveTable = (tableNumber: string) => {
