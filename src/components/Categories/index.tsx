@@ -11,13 +11,15 @@ export type CategoryProps = {
 
 type CategoriesProps = {
   categories: CategoryProps[]
+  onSelectCategory: (categoryId: string) => Promise<void>
 }
 
-export const Categories = ({ categories }: CategoriesProps) => {
+export const Categories = ({ categories, onSelectCategory }: CategoriesProps) => {
   const [selectedCategory, setSelectedCategory] = useState('')
 
   const handleSelectedCategory = (id: string) => {
     const category = selectedCategory === id ? '' : id
+    onSelectCategory(category)
     setSelectedCategory(category)
   }
 

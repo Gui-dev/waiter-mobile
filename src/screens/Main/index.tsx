@@ -12,6 +12,7 @@ import { Loading } from '../../components/Loading'
 
 import { CategoriesContainer, CenteredContainer, Container, Footer, FooterContainer, MenuContainer } from './style'
 import { api } from '../../services/api'
+import { AxiosError } from 'axios'
 
 export const Main = () => {
   const [isLoading, setIsLoading] = useState(true)
@@ -66,6 +67,20 @@ export const Main = () => {
     })
   }
 
+  const handleSelectCategory = async (categoryId: string) => {
+    try {
+      const route = !categoryId ? '/products' : `/categories/${categoryId}/products`
+      const { data } = await api.get(route)
+      setProducts(data)
+    } catch (error) {
+      const err = error as AxiosError
+      console.log(err)
+      if (err.response.status === 404) {
+        setProducts([])
+      }
+    }
+  }
+
   useEffect(() => {
     const loadCategoriesAndProducts = async () => {
       try {
@@ -98,7 +113,10 @@ export const Main = () => {
         {!isLoading && (
           <>
             <CategoriesContainer>
-              <Categories categories={categories} />
+              <Categories
+                categories={categories}
+                onSelectCategory={handleSelectCategory}
+              />
             </CategoriesContainer>
             {products.length > 0
               ? <MenuContainer>
