@@ -16,6 +16,7 @@ import { AxiosError } from 'axios'
 
 export const Main = () => {
   const [isLoading, setIsLoading] = useState(true)
+  const [isLoadingProducts, setIsLoadingProducts] = useState(false)
   const [isModalVisible, setIsModalVisible] = useState(false)
   const [selectedTable, setSelectedTable] = useState('')
   const [products, setProducts] = useState<ProductProps[]>([])
@@ -69,6 +70,7 @@ export const Main = () => {
 
   const handleSelectCategory = async (categoryId: string) => {
     try {
+      setIsLoadingProducts(true)
       const route = !categoryId ? '/products' : `/categories/${categoryId}/products`
       const { data } = await api.get(route)
       setProducts(data)
@@ -78,6 +80,8 @@ export const Main = () => {
       if (err.response.status === 404) {
         setProducts([])
       }
+    } finally {
+      setIsLoadingProducts(false)
     }
   }
 
@@ -118,20 +122,28 @@ export const Main = () => {
                 onSelectCategory={handleSelectCategory}
               />
             </CategoriesContainer>
-            {products.length > 0
-              ? <MenuContainer>
-                <Menu
-                  products={products}
-                  onAddToCart={handleAddToCart}
-                />
-              </MenuContainer>
 
-              : <CenteredContainer>
-                <Empty />
-                <Text color="#666" style={{ marginTop: 24 }}>
-                  Nenhum produto foi encontrado
-                </Text>
+            {isLoadingProducts
+              ? <CenteredContainer>
+                <Loading />
               </CenteredContainer>
+              : <>
+                {products.length > 0
+                  ? <MenuContainer>
+                    <Menu
+                      products={products}
+                      onAddToCart={handleAddToCart}
+                    />
+                  </MenuContainer>
+
+                  : <CenteredContainer>
+                    <Empty />
+                    <Text color="#666" style={{ marginTop: 24 }}>
+                      Nenhum produto foi encontrado
+                    </Text>
+                  </CenteredContainer>
+                }
+              </>
             }
 
           </>
