@@ -1,10 +1,6 @@
 <h1 align="center">Waiter App</h1>
 
 <p align="center">
-  <img alt="Waiter App" src="./.screens/video.gif" width="100%">
-</p>
-
-<p align="center">
   <img alt="Waiter App" src="./.screens/home.jpg" width="19%">
   <img alt="Waiter App" src="./.screens/table.jpg" width="19%">
   <img alt="Waiter App" src="./.screens/empty.jpg" width="19%">
@@ -19,7 +15,7 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 - [React Native](https://reactnative.dev)
 - [Expo](https://expo.io)
 - [TypeScript](https://www.typescriptlang.org)
-- [Native Base](https://docs.nativebase.io/)
+- [Styled Components](https://styled-components.com)
 
 ## Projeto
 
