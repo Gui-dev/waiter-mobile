@@ -15,7 +15,7 @@ Esse projeto foi desenvolvido com as seguintes tecnologias:
 - [React Native](https://reactnative.dev)
 - [Expo](https://expo.io)
 - [TypeScript](https://www.typescriptlang.org)
-- [Styled Components](https://styled-components.com)
+- [Native Base](https://docs.nativebase.io/)
 
 ## Projeto
 
