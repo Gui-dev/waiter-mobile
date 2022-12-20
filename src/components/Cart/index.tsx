@@ -1,14 +1,17 @@
+import { useState } from 'react'
 import { FlatList, TouchableOpacity } from 'react-native'
-import { Text } from '../Text'
-import { Actions, Image, Item, Product, ProductDetails, QuantityContainer, Summary, TotalContainer } from './style'
 
+import { Text } from '../Text'
 import { ProductProps } from '../Menu'
 import { formatCurrency } from '../../utils/formatCurrency'
 import { PlusCircle } from '../../assets/Icons/PlusCircle'
 import { MinusCircle } from '../../assets/Icons/MinusCircle'
 import { Button } from '../Button'
 import { OrderConfirmedModal } from '../OrderConfirmedModal'
-import { useState } from 'react'
+
+import { api } from '../../services/api'
+
+import { Actions, Image, Item, Product, ProductDetails, QuantityContainer, Summary, TotalContainer } from './style'
 
 export type CartItems = {
   product: ProductProps
@@ -17,19 +20,38 @@ export type CartItems = {
 
 type CartProps = {
   cartItems: CartItems[]
+  selectedTable: string
   onAdd: (product: ProductProps) => void
   onDecrement: (product: ProductProps) => void
   onConfirmOrder: () => void
 }
 
-export const Cart = ({ cartItems, onAdd, onDecrement, onConfirmOrder }: CartProps) => {
+export const Cart = ({ cartItems, selectedTable, onAdd, onDecrement, onConfirmOrder }: CartProps) => {
+  const [isLoading, setIsLoading] = useState(false)
   const [isModalVisible, setIsModalVisible] = useState(false)
   const total = cartItems.reduce((totalSum, item) => {
     return totalSum + item.quantity * item.product.price
   }, 0)
 
-  const handleConfirmOrder = () => {
-    setIsModalVisible(true)
+  const handleConfirmOrder = async () => {
+    try {
+      setIsLoading(true)
+      const products = cartItems.map(cartItem => {
+        return {
+          product: cartItem.product._id,
+          quantity: cartItem.quantity
+        }
+      })
+      await api.post('/orders', {
+        table: selectedTable,
+        products
+      })
+      setIsModalVisible(true)
+    } catch (error) {
+      console.log(error)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   const handleOk = () => {
@@ -102,6 +124,7 @@ export const Cart = ({ cartItems, onAdd, onDecrement, onConfirmOrder }: CartProp
           label="Confirmar pedido"
           disabled={cartItems.length === 0}
           onPress={handleConfirmOrder}
+          loading={isLoading}
         />
       </Summary>
     </>
