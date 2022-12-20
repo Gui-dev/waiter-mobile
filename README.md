@@ -1,7 +1,7 @@
 <h1 align="center">Waiter App</h1>
 
 <p align="center">
-  <video src="./.screens/video.mp4"/>
+  <img alt="Waiter App" src="./.screens/video.gif" width="100%">
 </p>
 
 <p align="center">
